@@ -446,9 +446,9 @@ GetCurrentBatteryCharging(int* aCharging)
   // Montblanc support - not working
   int chargingSrc0;
   success = ReadSysFile("/sys/class/power_supply/ab8500_ac/online",
-                        chargingSrc, sizeof(chargingSrc));
+                        &chargingSrc);
   bool success0 = ReadSysFile("/sys/class/power_supply/ab8500_usb/online",
-                              chargingSrc0, sizeof(chargingSrc0));
+                              &chargingSrc0);
   if (success && success0) {
     *aCharging = chargingSrc == 1 ||
                  chargingSrc0 == 1;
