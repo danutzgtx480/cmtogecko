@@ -444,11 +444,14 @@ GetCurrentBatteryCharging(int* aCharging)
   }
 
   // Montblanc support - not working
-  success = ReadSysFile("/sys/class/power_supply/ab8500_fg/status",
-                        chargingSrcString, sizeof(chargingSrcString));
-  if (success) {
-    *aCharging = strcmp(chargingSrcString, "Charging") == 0 ||
-                 strcmp(chargingSrcString, "Full") == 0;
+  int chargingSrc0
+  success = ReadSysFile("/sys/class/power_supply/ab8500_ac/online",
+                        chargingSrc, sizeof(chargingSrc));
+  bool success0 = ReadSysFile("/sys/class/power_supply/ab8500_usb/online",
+                              chargingSrc0, sizeof(chargingSrc0));
+  if (success && success0) {
+    *aCharging = chargingSrc == 1 ||
+                 chargingSrc0 == 1;
     return true;
   }
 
@@ -591,7 +594,6 @@ SetScreenBrightness(double brightness)
   aConfig.flashOnMS() = aConfig.flashOffMS() = 0;
   aConfig.color() = color;
   hal::SetLight(hal::eHalLightID_Backlight, aConfig);
-  hal::SetLight(hal::eHalLightID_Buttons, aConfig);
 }
 
 static Monitor* sInternalLockCpuMonitor = nullptr;
