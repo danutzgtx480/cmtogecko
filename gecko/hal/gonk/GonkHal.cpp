@@ -429,7 +429,7 @@ GetCurrentBatteryCharging(int* aCharging)
                  strcmp(chargingSrcString, "Full") == 0;
     return true;
   }
-
+	
 	// Arc / Ray support
   success = ReadSysFile("/sys/class/power_supply/bq24185/status",
                         chargingSrcString, sizeof(chargingSrcString));
