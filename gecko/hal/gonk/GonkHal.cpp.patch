@@ -1,0 +1,68 @@
+--- GonkHal.cpp	2014-04-05 11:21:32.707280900 +0200
++++ editedGonkHal.cpp	2014-04-13 11:57:16.189712000 +0200
+@@ -312,7 +312,12 @@
+     // e.g. DEVPATH=/devices/platform/sec-battery/power_supply/battery
+     const char *devpath = event->findParam("DEVPATH");
+     if (strcmp(subsystem, "power_supply") == 0 &&
+-        strstr(devpath, "battery")) {
++        (strstr(devpath, "battery") ||
++         strstr(devpath, "bq27520") ||
++         strstr(devpath, "bq24185") ||
++         strstr(devpath, "ab8500_fg") ||
++         strstr(devpath, "max17040"))
++      ) {
+       // aEvent will be valid only in this method.
+       NS_DispatchToMainThread(mUpdater);
+     }
+@@ -367,7 +372,13 @@
+ {
+   bool success = ReadSysFile("/sys/class/power_supply/battery/capacity",
+                              aCharge);
+-  if (!success) {
++  bool success0 = ReadSysFile("/sys/class/power_supply/bq27520/capacity",
++                              aCharge);
++  bool success1 = ReadSysFile("/sys/class/power_supply/ab8500_fg/capacity",
++                              aCharge);
++  bool success2 = ReadSysFile("/sys/class/power_supply/max17040/capacity",
++                              aCharge);
++  if (!(success || success0 || success1 || success2)) {
+     return false;
+   }
+ 
+@@ -418,6 +429,36 @@
+                  strcmp(chargingSrcString, "Full") == 0;
+     return true;
+   }
++	
++	// Arc / Ray support
++  success = ReadSysFile("/sys/class/power_supply/bq24185/status",
++                        chargingSrcString, sizeof(chargingSrcString));
++  if (success) {
++    *aCharging = strcmp(chargingSrcString, "Charging") == 0 ||
++                 strcmp(chargingSrcString, "Full") == 0;
++    return true;
++  }
++
++  // Zeus support
++  success = ReadSysFile("/sys/class/power_supply/max17040/status",
++                        chargingSrcString, sizeof(chargingSrcString));
++  if (success) {
++    *aCharging = strcmp(chargingSrcString, "Charging") == 0 ||
++                 strcmp(chargingSrcString, "Full") == 0;
++    return true;
++  }
++
++  // Montblanc support - not working
++  int chargingSrc0;
++  success = ReadSysFile("/sys/class/power_supply/ab8500_ac/online",
++                        &chargingSrc);
++  bool success0 = ReadSysFile("/sys/class/power_supply/ab8500_usb/online",
++                              &chargingSrc0);
++  if (success && success0) {
++    *aCharging = chargingSrc == 1 ||
++                 chargingSrc0 == 1;
++    return true;
++  }
+ 
+   return false;
+ }
