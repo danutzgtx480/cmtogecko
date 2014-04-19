@@ -1,0 +1,12 @@
+--- RecoveryService.js	2014-03-13 19:01:26.767057600 +0100
++++ RecoveryServiceE.js	2014-04-19 08:27:29.229146000 +0200
+@@ -32,6 +32,9 @@
+                                               ]);
+ 
+   return {
++    bootToRecovery:        library.declare("bootToRecovery",
++                                         ctypes.default_abi,
++                                         ctypes.int),
+     factoryReset:        library.declare("factoryReset",
+                                          ctypes.default_abi,
+                                          ctypes.int),

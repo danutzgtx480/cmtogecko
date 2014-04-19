@@ -1,0 +1,15 @@
+--- PowerManager.cpp	2014-04-13 11:20:21.842018600 +0200
++++ PowerManagerE.cpp	2014-04-19 09:41:01.662644000 +0200
+@@ -77,6 +77,12 @@
+ }
+ 
+ void
++PowerManager::RebootRecovery()
++{
++  hal::RebootRecovery();
++}
++
++void
+ PowerManager::FactoryReset()
+ {
+   hal::FactoryReset();

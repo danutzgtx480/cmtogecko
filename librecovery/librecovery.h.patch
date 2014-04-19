@@ -1,0 +1,14 @@
+--- librecovery.h	2014-04-18 21:29:59.490539200 +0200
++++ librecoveryE.h	2014-04-19 08:23:32.947215300 +0200
+@@ -29,6 +29,11 @@
+ #endif
+ 
+ /**
++ * Reboot device into recovery mode
++ */
++int bootToRecovery();
++
++/**
+  * Perform a factory reset. This function will reboot the device into recovery.
+  */
+ int factoryReset();

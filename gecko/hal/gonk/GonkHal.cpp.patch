@@ -1,5 +1,5 @@
---- GonkHal.cpp	2014-04-05 11:21:32.707280900 +0200
-+++ editedGonkHal.cpp	2014-04-13 11:57:16.189712000 +0200
+--- GonkHal.cpp	2014-04-18 19:16:14.074623600 +0200
++++ GonkHalE.cpp	2014-04-19 08:48:43.799972800 +0200
 @@ -312,7 +312,12 @@
      // e.g. DEVPATH=/devices/platform/sec-battery/power_supply/battery
      const char *devpath = event->findParam("DEVPATH");
@@ -66,3 +66,23 @@
  
    return false;
  }
+@@ -1464,6 +1505,19 @@
+ }
+ 
+ void
++RebootRecovery()
++{
++  nsCOMPtr<nsIRecoveryService> recoveryService =
++    do_GetService("@mozilla.org/recovery-service;1");
++  if (!recoveryService) {
++    NS_WARNING("Could not get recovery service!");
++    return;
++  }
++
++  recoveryService->BootToRecovery();
++}
++
++void
+ FactoryReset()
+ {
+   nsCOMPtr<nsIRecoveryService> recoveryService =

@@ -1,0 +1,16 @@
+--- nsIRecoveryService.idl	2014-02-02 14:15:19.470763800 +0100
++++ nsIRecoveryServiceE.idl	2014-04-19 10:21:19.024052800 +0200
+@@ -16,6 +16,13 @@
+   const long FOTA_UPDATE_SUCCESS = 2;
+ 
+   /**
++   * Reboots device into recovery mode
++   *
++   * @throws NS_ERROR_FAILURE when rebooting into recovery fails for some reason.
++   */
++  void rebootRecovery();
++
++  /**
+    * Uses recovery to wipe the data and cache partitions. If this call is
+    * successful, the device should reboot before the function call ever returns.
+    *

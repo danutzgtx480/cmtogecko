@@ -1,0 +1,59 @@
+--- sleep_menu.js	2014-04-05 12:51:44.558368300 +0200
++++ sleep_menuE.js	2014-04-19 09:19:56.652444900 +0200
+@@ -85,6 +85,10 @@
+         label: _('normal'),
+         value: 'silentOff'
+       },
++      recovery: {
++        label: _('recovery'),
++        value: 'recovery'
++      },
+       restart: {
+         label: _('restart'),
+         value: 'restart'
+@@ -244,13 +248,18 @@
+ 
+         break;
+ 
++      case 'recovery':
++        this.startPowerOff(2);
++
++        break;
++
+       case 'restart':
+-        this.startPowerOff(true);
++        this.startPowerOff(1);
+ 
+         break;
+ 
+       case 'power':
+-        this.startPowerOff(false);
++        this.startPowerOff(0);
+ 
+         break;
+ 
+@@ -350,13 +359,19 @@
+     };
+   },
+ 
+-  _actualPowerOff: function sm_actualPowerOff(isReboot) {
++  _actualPowerOff: function sm_actualPowerOff(rebootMode) {
+     var power = navigator.mozPower;
+ 
+-    if (isReboot) {
+-      power.reboot();
+-    } else {
+-      power.powerOff();
++    switch (rebootMode) {
++      case 0:
++        power.powerOff();
++        break;
++      case 1:
++        power.reboot();
++        break;
++      case 2:
++        power.rebootRecovery();
++        break;
+     }
+   }
+ };

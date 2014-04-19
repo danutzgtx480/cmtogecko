@@ -1,0 +1,14 @@
+--- Hal.h	2014-02-02 14:15:19.345748900 +0100
++++ HalE.h	2014-04-19 09:39:52.927446200 +0200
+@@ -573,6 +573,11 @@
+ void StartForceQuitWatchdog(hal::ShutdownMode aMode, int32_t aTimeoutSecs);
+ 
+ /**
++ * Reboot device into recovery mode.
++ */
++void RebootRecovery();
++
++/**
+  * Perform Factory Reset to wipe out all user data.
+  */
+ void FactoryReset();

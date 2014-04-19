@@ -1,0 +1,15 @@
+--- Hal.cpp	2014-04-05 11:21:32.637221700 +0200
++++ HalE.cpp	2014-04-19 09:36:34.191505500 +0200
+@@ -1186,6 +1186,12 @@
+     return settings;
+ }
+ 
++void RebootRecovery()
++{
++  AssertMainThread();
++  PROXY_IF_SANDBOXED(RebootRecovery());
++}
++
+ void FactoryReset()
+ {
+   AssertMainThread();

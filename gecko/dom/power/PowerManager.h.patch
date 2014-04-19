@@ -1,0 +1,10 @@
+--- PowerManager.h	2014-04-13 11:20:21.857602400 +0200
++++ PowerManagerE.h	2014-04-19 09:43:33.886450000 +0200
+@@ -47,6 +47,7 @@
+   }
+   virtual JSObject* WrapObject(JSContext* aCx) MOZ_OVERRIDE;
+   void Reboot(ErrorResult& aRv);
++  void RebootRecovery();
+   void FactoryReset();
+   void PowerOff(ErrorResult& aRv);
+   void AddWakeLockListener(nsIDOMMozWakeLockListener* aListener);
